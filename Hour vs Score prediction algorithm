@@ -1,0 +1,40 @@
+#importing all libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+
+#reading data from data-set#training model
+reg = linear_model.LinearRegression()
+reg.fit(df[['Hours']],df.Scores)
+df=pd.read_csv("Path_to_dataset")
+df
+
+#plotting distribution of scores
+%matplotlib inline
+plt.xlabel('Hours')
+plt.ylabel('Scores')
+plt.scatter(df.Hours, df.Scores)
+
+#training model
+reg = linear_model.LinearRegression()
+reg.fit(df[['Hours']],df.Scores)
+
+#printing regression line
+%matplotlib inline
+plt.xlabel('Hours')
+plt.ylabel('Scores')
+plt.scatter(df.Hours, df.Scores, color='black', marker='*')
+line=reg.coef_*df.Hours+reg.intercept_
+plt.plot(df.Hours,line, color='yellow')
+plt.show()
+
+#predicting values
+z=float(input("studying hours="))
+x=reg.predict([[z]])
+print("the score is",x)
+
+#error
+from sklearn import metrics
+y_pred=reg.predict(df[['Hours']])
+print('error=',metrics.mean_absolute_error(df.Scores,y_pred))
